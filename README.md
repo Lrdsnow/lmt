@@ -5,8 +5,8 @@ This Is My Multitool
 ## Install Instructions:
 
 1. Download lmt.sh<br />
-2. Open A Terminal In The Folder That lmt.sh is in
-3. Execute <code>sudo mv lmt.sh /bin/lmt</code> (This Will Require The Admin Password)
+2. Open A Terminal In The Folder That lmt.sh is in<br />
+3. Execute <code>sudo chmod 755 lmt.sh && sudo ./lmt.sh -i lmt</code>
 
 ## Usage:
 
