@@ -1,1 +1,1 @@
-touch ~/$pkg && echo "cd ~/.lmt/pkgs/$pkg && python3 ~/.lmt/pkgs/$pkg/main.py" > ~/$pkg && sudo chmod 755 ~/$pkg && sudo mv ~/$pkg /bin/$pkg
+touch ~/$pkg && echo "cd ~/.lmt/pkgs/$pkg && python3 ~/.lmt/pkgs/$pkg/main.py" > ~/$pkg && sudo chmod 755 ~/$pkg && sudo mv ~/$pkg /bin/$pkg && sudo apt-get install python3 python3-pip python3-pygame -qq > /dev/null && sudo python3 -m pip install pygame-gui > /dev/null
