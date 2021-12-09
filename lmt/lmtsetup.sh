@@ -1,3 +1,3 @@
 sudo rm /bin/lmt
-sudo mv ~/.lmt/pkgs/$pkg/lmt.sh /bin/lmt
-rm -rf ~/.lmt/pkgs/$pkg
+sudo mv ~/.lmt/pkgs/lmt/lmt.sh /bin/lmt
+rm -rf ~/.lmt/pkgs/lmt
