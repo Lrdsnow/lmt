@@ -62,7 +62,6 @@ W: lmt source: dh-make-template-in-source debian/prerm.ex
 W: lmt source: dh-make-template-in-source debian/salsa-ci.yml.ex
 W: lmt source: dh-make-template-in-source debian/watch.ex
 W: lmt: initial-upload-closes-no-bugs
-W: lmt source: no-debian-changes
 W: lmt: no-manual-page usr/bin/lmt
 W: lmt: readme-debian-contains-debmake-template
 W: lmt source: space-in-std-shortname-in-dep5-copyright <special license> (line 9)

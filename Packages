@@ -3,14 +3,48 @@ Version: 1.0-1
 Architecture: all
 Maintainer: Lrdsnow _ <Lrdsnow101@gmail.com>
 Installed-Size: 18
+Depends: lmt-repo-tools (>= 0.1)
 Filename: ./lmt_1.0-1_all.deb
-Size: 4060
-MD5sum: 0cc14b06156f6ac6807a31a24120a4ec
-SHA1: eb30687845609e97f439396ca53ea685b1717131
-SHA256: 1bcec067945796314ee0a1d49049bff3cdedbfa6008b01c6a4b3d95a56cb0831
+Size: 4128
+MD5sum: a3fdf4c1324a2751c584178c7b1f5a64
+SHA1: 7b44ebdf3e620e04f30a05ef502b2fc6b5e81e04
+SHA256: f335828f5fff0bf1848089a8cb69c95d090c66d7356f16653a0c4249c2f15a0f
 Section: unknown
 Priority: optional
 Homepage: <insert the upstream URL, if relevant>
 Description: <insert up to 60 chars description>
  <insert long description, indented with spaces>
+
+Package: lmt-gui
+Version: 1.0-1
+Architecture: all
+Maintainer: Lrdsnow _ <Lrdsnow101@gmail.com>
+Installed-Size: 12
+Depends: python3 (>= 3.9.4), python3-pip (>= 20.3.4), python3-pygame (>= 1.9.6)
+Filename: ./lmt-gui_1.0-1_all.deb
+Size: 2338
+MD5sum: 82e548ee185a39e6db16ddc819186483
+SHA1: e6ed644694825dd3f048bb3b366d1d8138ab96b1
+SHA256: a15709c127d8ebfef9504248f985dae50874e161dd53d07ae06342a3f5fa528c
+Section: unknown
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: GUI for LMT
+ A Graphical Interface For LMT (package manager)
+
+Package: lmt-repo-tools
+Version: 1.0-1
+Architecture: all
+Maintainer: Lrdsnow _ <Lrdsnow101@gmail.com>
+Installed-Size: 13
+Filename: ./lmt-repo-tools_1.0-1_all.deb
+Size: 2886
+MD5sum: 6a739cd59b2646e1df54fbc45121fea0
+SHA1: fd91e67c5629b758a31bb06085676b187c4d2e43
+SHA256: 70359466c92da823a6bd33b6f537593f4c32718dd6ad93639d78a6c8fc967ea8
+Section: unknown
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: Repo Tools For LMT
+ lmt repo tools are for managing lmt repos
 

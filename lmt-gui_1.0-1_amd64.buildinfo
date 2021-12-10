@@ -1,20 +1,20 @@
 Format: 1.0
-Source: lmt
-Binary: lmt
+Source: lmt-gui
+Binary: lmt-gui
 Architecture: all source
 Version: 1.0-1
 Checksums-Md5:
- 74008db1b8021cf8697e1358fbb4a1e8 771 lmt_1.0-1.dsc
- a3fdf4c1324a2751c584178c7b1f5a64 4128 lmt_1.0-1_all.deb
+ 20432f536ab9264480811a1325922ce0 813 lmt-gui_1.0-1.dsc
+ 82e548ee185a39e6db16ddc819186483 2338 lmt-gui_1.0-1_all.deb
 Checksums-Sha1:
- 41c7ef85bcba2fd22fdab7d5be207c8c2219736f 771 lmt_1.0-1.dsc
- 7b44ebdf3e620e04f30a05ef502b2fc6b5e81e04 4128 lmt_1.0-1_all.deb
+ 9ca4a21908e6942702737917ce77848f79184282 813 lmt-gui_1.0-1.dsc
+ e6ed644694825dd3f048bb3b366d1d8138ab96b1 2338 lmt-gui_1.0-1_all.deb
 Checksums-Sha256:
- 9696791b33a5e842e7b79b1a70b91435eaa034cc16076c58c509d91870dfe668 771 lmt_1.0-1.dsc
- f335828f5fff0bf1848089a8cb69c95d090c66d7356f16653a0c4249c2f15a0f 4128 lmt_1.0-1_all.deb
+ 9b34b11e40104e0241fd15f05b86a6af34fbd653df54df418b9da286d7e8f801 813 lmt-gui_1.0-1.dsc
+ a15709c127d8ebfef9504248f985dae50874e161dd53d07ae06342a3f5fa528c 2338 lmt-gui_1.0-1_all.deb
 Build-Origin: Ubuntu
 Build-Architecture: amd64
-Build-Date: Fri, 10 Dec 2021 09:44:25 -0800
+Build-Date: Fri, 10 Dec 2021 09:45:17 -0800
 Build-Tainted-By:
  merged-usr-via-aliased-dirs
  usr-local-has-libraries
@@ -179,4 +179,4 @@ Environment:
  DEB_BUILD_OPTIONS="parallel=8"
  DEB_BUILD_PROFILES="noudeb"
  LANG="en_US.UTF-8"
- SOURCE_DATE_EPOCH="1639158197"
+ SOURCE_DATE_EPOCH="1639156666"

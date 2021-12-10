@@ -1,5 +1,5 @@
 Format: 1.8
-Date: Fri, 10 Dec 2021 08:01:53 -0800
+Date: Fri, 10 Dec 2021 09:43:17 -0800
 Source: lmt
 Binary: lmt
 Built-For-Profiles: noudeb
@@ -16,20 +16,20 @@ Changes:
  .
    * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
 Checksums-Sha1:
- a4916fdd0ca64717078664fa169ae55d5dbae40c 771 lmt_1.0-1.dsc
- c17e6577b3fbecec073376d7bf76716faabf09b2 9704 lmt_1.0.orig.tar.xz
- fef068cdc5a2c10bdad816a9b4b3a67006491cf3 7904 lmt_1.0-1.debian.tar.xz
- eb30687845609e97f439396ca53ea685b1717131 4060 lmt_1.0-1_all.deb
- b94fc663d7db87cf7cbde2f9c61d71d57c4cb982 5642 lmt_1.0-1_amd64.buildinfo
+ 41c7ef85bcba2fd22fdab7d5be207c8c2219736f 771 lmt_1.0-1.dsc
+ 14067aff174cb353a4b33c64253def7e76942ae4 2064 lmt_1.0.orig.tar.xz
+ 132e0e4fde4d04cde63509d4d0f31cc9d62fd654 7920 lmt_1.0-1.debian.tar.xz
+ 7b44ebdf3e620e04f30a05ef502b2fc6b5e81e04 4128 lmt_1.0-1_all.deb
+ 85d5673ea6426b35c4ab070bea92844e231eeba1 5642 lmt_1.0-1_amd64.buildinfo
 Checksums-Sha256:
- 9416f88cd0f500643ac1e05848096a30dc14e6c89bb42af5f3045c62da2da386 771 lmt_1.0-1.dsc
- bd8e30b9a42a91dce90eff3b8ffbce9ab34d02d2790f2e64072fa49797169a9b 9704 lmt_1.0.orig.tar.xz
- 339ddbbb4822ce918ea5f3cac6e0314c591eb2e9d43a391174e2cf1153b32cc2 7904 lmt_1.0-1.debian.tar.xz
- 1bcec067945796314ee0a1d49049bff3cdedbfa6008b01c6a4b3d95a56cb0831 4060 lmt_1.0-1_all.deb
- cb4ff970d7d46c80476232208c4009d064fb69ea3a8c177374f6731d2a0db56e 5642 lmt_1.0-1_amd64.buildinfo
+ 9696791b33a5e842e7b79b1a70b91435eaa034cc16076c58c509d91870dfe668 771 lmt_1.0-1.dsc
+ ef14ce53f3275bb0d313706d9e7584f961acfc75681ea9c9c1e35f99e5dae8d3 2064 lmt_1.0.orig.tar.xz
+ 47fc0c3db4c918cb767680ca5dd510d78543db659a24d2e88956c03bc59e9b62 7920 lmt_1.0-1.debian.tar.xz
+ f335828f5fff0bf1848089a8cb69c95d090c66d7356f16653a0c4249c2f15a0f 4128 lmt_1.0-1_all.deb
+ 7aa27288e663c110b56f35cd23c624f8547f57ae79b4d985973a277ece9a1906 5642 lmt_1.0-1_amd64.buildinfo
 Files:
- 526e5b1efc0319206ef55fc32d618e27 771 unknown optional lmt_1.0-1.dsc
- cab07498573c666bec02701eb77654cb 9704 unknown optional lmt_1.0.orig.tar.xz
- c0a30e585c7558cc862bb0b9be3b55f1 7904 unknown optional lmt_1.0-1.debian.tar.xz
- 0cc14b06156f6ac6807a31a24120a4ec 4060 unknown optional lmt_1.0-1_all.deb
- dc8a1fe3e9b7fd2793c2c0984040a4d1 5642 unknown optional lmt_1.0-1_amd64.buildinfo
+ 74008db1b8021cf8697e1358fbb4a1e8 771 unknown optional lmt_1.0-1.dsc
+ 8a600819bdf2dea3d47e836342c8c4b0 2064 unknown optional lmt_1.0.orig.tar.xz
+ 69cceb3c623ff2724fdb28f677e799d8 7920 unknown optional lmt_1.0-1.debian.tar.xz
+ a3fdf4c1324a2751c584178c7b1f5a64 4128 unknown optional lmt_1.0-1_all.deb
+ 4ffd4261a32c9b596fc4841fd38cbf2e 5642 unknown optional lmt_1.0-1_amd64.buildinfo

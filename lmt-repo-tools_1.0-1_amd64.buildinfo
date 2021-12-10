@@ -1,20 +1,20 @@
 Format: 1.0
-Source: lmt
-Binary: lmt
+Source: lmt-repo-tools
+Binary: lmt-repo-tools
 Architecture: all source
 Version: 1.0-1
 Checksums-Md5:
- 74008db1b8021cf8697e1358fbb4a1e8 771 lmt_1.0-1.dsc
- a3fdf4c1324a2751c584178c7b1f5a64 4128 lmt_1.0-1_all.deb
+ f56691ab43f7bee3ab9a045de8d79b7e 870 lmt-repo-tools_1.0-1.dsc
+ 6a739cd59b2646e1df54fbc45121fea0 2886 lmt-repo-tools_1.0-1_all.deb
 Checksums-Sha1:
- 41c7ef85bcba2fd22fdab7d5be207c8c2219736f 771 lmt_1.0-1.dsc
- 7b44ebdf3e620e04f30a05ef502b2fc6b5e81e04 4128 lmt_1.0-1_all.deb
+ d35620d9b7d621540860df8821222f9f0318118d 870 lmt-repo-tools_1.0-1.dsc
+ fd91e67c5629b758a31bb06085676b187c4d2e43 2886 lmt-repo-tools_1.0-1_all.deb
 Checksums-Sha256:
- 9696791b33a5e842e7b79b1a70b91435eaa034cc16076c58c509d91870dfe668 771 lmt_1.0-1.dsc
- f335828f5fff0bf1848089a8cb69c95d090c66d7356f16653a0c4249c2f15a0f 4128 lmt_1.0-1_all.deb
+ 21458b95e2918bcfb9642130a4cc64433d920d7d48bb92258d774334eac93473 870 lmt-repo-tools_1.0-1.dsc
+ 70359466c92da823a6bd33b6f537593f4c32718dd6ad93639d78a6c8fc967ea8 2886 lmt-repo-tools_1.0-1_all.deb
 Build-Origin: Ubuntu
 Build-Architecture: amd64
-Build-Date: Fri, 10 Dec 2021 09:44:25 -0800
+Build-Date: Fri, 10 Dec 2021 09:29:10 -0800
 Build-Tainted-By:
  merged-usr-via-aliased-dirs
  usr-local-has-libraries
@@ -179,4 +179,4 @@ Environment:
  DEB_BUILD_OPTIONS="parallel=8"
  DEB_BUILD_PROFILES="noudeb"
  LANG="en_US.UTF-8"
- SOURCE_DATE_EPOCH="1639158197"
+ SOURCE_DATE_EPOCH="1639157234"

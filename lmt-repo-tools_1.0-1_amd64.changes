@@ -1,0 +1,35 @@
+Format: 1.8
+Date: Fri, 10 Dec 2021 09:27:14 -0800
+Source: lmt-repo-tools
+Binary: lmt-repo-tools
+Built-For-Profiles: noudeb
+Architecture: source all
+Version: 1.0-1
+Distribution: unstable
+Urgency: medium
+Maintainer: Lrdsnow _ <Lrdsnow101@gmail.com>
+Changed-By: Lrdsnow _ <Lrdsnow101@gmail.com>
+Description:
+ lmt-repo-tools - Repo Tools For LMT
+Changes:
+ lmt-repo-tools (1.0-1) unstable; urgency=medium
+ .
+   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+Checksums-Sha1:
+ d35620d9b7d621540860df8821222f9f0318118d 870 lmt-repo-tools_1.0-1.dsc
+ dce1415b75300296736e48f963c6c1bab14f640c 2556 lmt-repo-tools_1.0.orig.tar.xz
+ 879f458f6151ef804f6d6f0d6525dbcd3f0362d4 7940 lmt-repo-tools_1.0-1.debian.tar.xz
+ fd91e67c5629b758a31bb06085676b187c4d2e43 2886 lmt-repo-tools_1.0-1_all.deb
+ 3e0e8c05de2ec29fac8cb1a3c2b9cd675b8e32ee 5730 lmt-repo-tools_1.0-1_amd64.buildinfo
+Checksums-Sha256:
+ 21458b95e2918bcfb9642130a4cc64433d920d7d48bb92258d774334eac93473 870 lmt-repo-tools_1.0-1.dsc
+ 02997c2544c965d4fd7382411cc46502d9b3aaba3631ba387415303d0d0c3f9f 2556 lmt-repo-tools_1.0.orig.tar.xz
+ 296091dd6d2b63007f48aebd01ad80728491d94fe25b2c746e05444b7a1c7225 7940 lmt-repo-tools_1.0-1.debian.tar.xz
+ 70359466c92da823a6bd33b6f537593f4c32718dd6ad93639d78a6c8fc967ea8 2886 lmt-repo-tools_1.0-1_all.deb
+ 9256e8b4df19e83a919101db0e7512ecb7d84f296edbafd939a664ab782ead6c 5730 lmt-repo-tools_1.0-1_amd64.buildinfo
+Files:
+ f56691ab43f7bee3ab9a045de8d79b7e 870 unknown optional lmt-repo-tools_1.0-1.dsc
+ fa0ba9fcae051abb095ee639fb64acfb 2556 unknown optional lmt-repo-tools_1.0.orig.tar.xz
+ a7464cfd9efd0fd55297302546592511 7940 unknown optional lmt-repo-tools_1.0-1.debian.tar.xz
+ 6a739cd59b2646e1df54fbc45121fea0 2886 unknown optional lmt-repo-tools_1.0-1_all.deb
+ d1f7f063dfd647108f97e12d1126e568 5730 unknown optional lmt-repo-tools_1.0-1_amd64.buildinfo

@@ -10,11 +10,11 @@ Build-Depends: debhelper-compat (= 13)
 Package-List:
  lmt deb unknown optional arch=all
 Checksums-Sha1:
- c17e6577b3fbecec073376d7bf76716faabf09b2 9704 lmt_1.0.orig.tar.xz
- fef068cdc5a2c10bdad816a9b4b3a67006491cf3 7904 lmt_1.0-1.debian.tar.xz
+ 14067aff174cb353a4b33c64253def7e76942ae4 2064 lmt_1.0.orig.tar.xz
+ 132e0e4fde4d04cde63509d4d0f31cc9d62fd654 7920 lmt_1.0-1.debian.tar.xz
 Checksums-Sha256:
- bd8e30b9a42a91dce90eff3b8ffbce9ab34d02d2790f2e64072fa49797169a9b 9704 lmt_1.0.orig.tar.xz
- 339ddbbb4822ce918ea5f3cac6e0314c591eb2e9d43a391174e2cf1153b32cc2 7904 lmt_1.0-1.debian.tar.xz
+ ef14ce53f3275bb0d313706d9e7584f961acfc75681ea9c9c1e35f99e5dae8d3 2064 lmt_1.0.orig.tar.xz
+ 47fc0c3db4c918cb767680ca5dd510d78543db659a24d2e88956c03bc59e9b62 7920 lmt_1.0-1.debian.tar.xz
 Files:
- cab07498573c666bec02701eb77654cb 9704 lmt_1.0.orig.tar.xz
- c0a30e585c7558cc862bb0b9be3b55f1 7904 lmt_1.0-1.debian.tar.xz
+ 8a600819bdf2dea3d47e836342c8c4b0 2064 lmt_1.0.orig.tar.xz
+ 69cceb3c623ff2724fdb28f677e799d8 7920 lmt_1.0-1.debian.tar.xz
