@@ -2,13 +2,13 @@ Package: lmt
 Version: 1.0-1
 Architecture: all
 Maintainer: Lrdsnow _ <Lrdsnow101@gmail.com>
-Installed-Size: 18
+Installed-Size: 19
 Depends: lmt-repo-tools (>= 0.1)
 Filename: ./lmt_1.0-1_all.deb
-Size: 4128
-MD5sum: a3fdf4c1324a2751c584178c7b1f5a64
-SHA1: 7b44ebdf3e620e04f30a05ef502b2fc6b5e81e04
-SHA256: f335828f5fff0bf1848089a8cb69c95d090c66d7356f16653a0c4249c2f15a0f
+Size: 4430
+MD5sum: bf4c50d919e0c3b8981205e855365fa9
+SHA1: 3ee89505dca8ffcf965033c184b20294deec6c60
+SHA256: 4d8f822c7baac8748becd82c5dd0fc5e0be4fc2ce30d76efe1fbfae66af06473
 Section: unknown
 Priority: optional
 Homepage: <insert the upstream URL, if relevant>
