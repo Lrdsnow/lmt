@@ -11,10 +11,10 @@ Package-List:
  lmt deb unknown optional arch=all
 Checksums-Sha1:
  14067aff174cb353a4b33c64253def7e76942ae4 2064 lmt_1.0.orig.tar.xz
- 132e0e4fde4d04cde63509d4d0f31cc9d62fd654 7920 lmt_1.0-1.debian.tar.xz
+ e3c0854c58123f395d7dcdba5ac9bb516b190ef5 9180 lmt_1.0-1.debian.tar.xz
 Checksums-Sha256:
  ef14ce53f3275bb0d313706d9e7584f961acfc75681ea9c9c1e35f99e5dae8d3 2064 lmt_1.0.orig.tar.xz
- 47fc0c3db4c918cb767680ca5dd510d78543db659a24d2e88956c03bc59e9b62 7920 lmt_1.0-1.debian.tar.xz
+ ff18a504a2aad8c73308a52e0f4fa5bc65f64800ad618356a7bf5674774c5ead 9180 lmt_1.0-1.debian.tar.xz
 Files:
  8a600819bdf2dea3d47e836342c8c4b0 2064 lmt_1.0.orig.tar.xz
- 69cceb3c623ff2724fdb28f677e799d8 7920 lmt_1.0-1.debian.tar.xz
+ 8b1ea31db56165dfca276e36aac50346 9180 lmt_1.0-1.debian.tar.xz

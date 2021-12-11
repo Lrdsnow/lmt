@@ -11,6 +11,7 @@ dh clean
  dpkg-source -b .
 dpkg-source: info: using source format '3.0 (quilt)'
 dpkg-source: info: building lmt using existing ./lmt_1.0.orig.tar.xz
+dpkg-source: info: using patch list from debian/patches/series
 dpkg-source: info: building lmt in lmt_1.0-1.debian.tar.xz
 dpkg-source: info: building lmt in lmt_1.0-1.dsc
  debian/rules binary
