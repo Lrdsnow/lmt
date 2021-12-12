@@ -18,9 +18,15 @@ This Is My Multitool
 4. Then You Execute <code>sudo apt install lmt</code> To Install LMT (you can use this to install lmt-gui and lmt-repo-tools too)
 
 ### Via PACMAN:
+
 1. Download repo.aur.sh
 2. Execute <code>sudo chmod 755 lmt.sh && sudo ./repo.aur.sh</code>
 3. Then Install LMT With <code>sudo pacman -S lmt</code> (again this method works with lmt-gui and lmt-repo-tools too) 
+
+### Via YUM:
+
+1. Download lmt.repo
+2. Move it (as root) to /etc/yum.repos.d/
 
 ## Usage:
 
@@ -32,7 +38,7 @@ This Is My Multitool
 
 Normal Install (mcg):<br />
 <code>lmt -i app</code><br />
-Install With Built In Package Manager (apt/apk/pacman):<br />
+Install With Built In Package Manager (apt/apk/pacman/yum):<br />
 <code>lmt -ui app</code><br />
 
 
