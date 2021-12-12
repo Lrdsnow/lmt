@@ -1,0 +1,5 @@
+[lmt]
+name=lmt
+baseurl=https://raw.githubusercontent.com/Lrdsnow/lmt/main/rpm/
+enabled=1
+gpgcheck=0
