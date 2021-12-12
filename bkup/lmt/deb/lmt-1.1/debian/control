@@ -1,0 +1,16 @@
+Source: lmt
+Section: unknown
+Priority: optional
+Maintainer: Lrdsnow _ <Lrdsnow101@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.5.1
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Browser: https://salsa.debian.org/debian/lmt
+#Vcs-Git: https://salsa.debian.org/debian/lmt.git
+Rules-Requires-Root: no
+
+Package: lmt
+Architecture: all
+Depends: ${misc:Depends}, lmt-repo-tools (>= 0.1)
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

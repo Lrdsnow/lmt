@@ -1,0 +1,16 @@
+Source: lmt-gui
+Section: unknown
+Priority: optional
+Maintainer: Lrdsnow _ <Lrdsnow101@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.5.1
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Browser: https://salsa.debian.org/debian/lmt-gui
+#Vcs-Git: https://salsa.debian.org/debian/lmt-gui.git
+Rules-Requires-Root: no
+
+Package: lmt-gui
+Architecture: all
+Depends: ${misc:Depends}, python3 (>= 3.9.4), python3-pip (>= 20.3.4), python3-pygame (>= 1.9.6)
+Description: GUI for LMT
+ A Graphical Interface For LMT (package manager)

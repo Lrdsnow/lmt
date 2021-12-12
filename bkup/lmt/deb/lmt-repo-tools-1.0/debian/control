@@ -1,0 +1,16 @@
+Source: lmt-repo-tools
+Section: unknown
+Priority: optional
+Maintainer: Lrdsnow _ <Lrdsnow101@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.5.1
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Browser: https://salsa.debian.org/debian/lmt-repo-tools
+#Vcs-Git: https://salsa.debian.org/debian/lmt-repo-tools.git
+Rules-Requires-Root: no
+
+Package: lmt-repo-tools
+Architecture: all
+Depends: ${misc:Depends}
+Description: Repo Tools For LMT
+ lmt repo tools are for managing lmt repos

@@ -1,0 +1,16 @@
+Package: lmt
+Version: 1.0-1
+Architecture: all
+Maintainer: Lrdsnow _ <Lrdsnow101@gmail.com>
+Installed-Size: 18
+Filename: ./lmt_1.0-1_all.deb
+Size: 4060
+MD5sum: 0cc14b06156f6ac6807a31a24120a4ec
+SHA1: eb30687845609e97f439396ca53ea685b1717131
+SHA256: 1bcec067945796314ee0a1d49049bff3cdedbfa6008b01c6a4b3d95a56cb0831
+Section: unknown
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
+
