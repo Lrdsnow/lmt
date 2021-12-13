@@ -1,5 +1,0 @@
-NOD="3"
-NAME=LMTREPO
-lmt=https://lrdsnow.github.io/lmt/ppa/lmt_1.0-1_all.deb
-lmt-gui=https://lrdsnow.github.io/lmt/ppa/lmt-gui_1.0-1_all.deb
-lmt-repo-tools=https://lrdsnow.github.io/lmt/ppa/lmt-repo-tools_1.0-1_all.deb
