@@ -1,0 +1,83 @@
+ dpkg-buildpackage -us -uc -ui
+dpkg-buildpackage: info: source package godot
+dpkg-buildpackage: info: source version 3.4-1
+dpkg-buildpackage: info: source distribution unstable
+dpkg-buildpackage: info: source changed by Lrdsnow <Lrdsnow101@gmail.com>
+ dpkg-source --before-build .
+dpkg-buildpackage: info: host architecture amd64
+ fakeroot debian/rules clean
+dh clean
+   dh_clean
+ dpkg-source -b .
+dpkg-source: info: using source format '3.0 (quilt)'
+dpkg-source: info: building godot using existing ./godot_3.4.orig.tar.xz
+dpkg-source: info: building godot in godot_3.4-1.debian.tar.xz
+dpkg-source: info: building godot in godot_3.4-1.dsc
+ debian/rules build
+dh build
+   dh_update_autotools_config
+   dh_autoreconf
+   create-stamp debian/debhelper-build-stamp
+ fakeroot debian/rules binary
+dh binary
+   dh_testroot
+   dh_prep
+   dh_install
+   dh_installdocs
+   dh_installchangelogs
+   dh_icons
+   dh_perl
+   dh_link
+   dh_strip_nondeterminism
+   dh_compress
+   dh_fixperms
+   dh_missing
+   dh_dwz
+dwz: debian/godot/usr/bin/godot: .debug_info section not present
+   dh_strip
+   dh_makeshlibs
+   dh_shlibdeps
+   dh_installdeb
+   dh_gencontrol
+dpkg-gencontrol: warning: package godot: substitution variable ${shlibs:Depends} unused, but is defined
+   dh_md5sums
+   dh_builddeb
+dpkg-deb: building package 'godot' in '../godot_3.4-1_amd64.deb'.
+ dpkg-genbuildinfo
+ dpkg-genchanges  >../godot_3.4-1_amd64.changes
+dpkg-genchanges: info: including full source code in upload
+ dpkg-source --after-build .
+dpkg-buildpackage: info: full upload (original source is included)
+Now running lintian godot_3.4-1_amd64.changes ...
+E: godot changes: bad-distribution-in-changes-file unstable
+E: godot: changelog-is-dh_make-template
+E: godot: copyright-contains-dh_make-todo-boilerplate
+E: godot source: debian-rules-is-dh_make-template
+E: godot: description-starts-with-package-name
+E: godot: embedded-library usr/bin/godot: freetype
+E: godot: embedded-library usr/bin/godot: libpng
+E: godot: helper-templates-in-copyright
+E: godot source: readme-source-is-dh_make-template
+E: godot: section-is-dh_make-template
+E: godot source: source-is-missing godot
+W: godot: binary-without-manpage usr/bin/godot
+W: godot: copyright-has-url-from-dh_make-boilerplate
+W: godot source: dh-make-template-in-source debian/godot.cron.d.ex
+W: godot source: dh-make-template-in-source debian/godot.doc-base.EX
+W: godot source: dh-make-template-in-source debian/manpage.1.ex
+W: godot source: dh-make-template-in-source debian/manpage.sgml.ex
+W: godot source: dh-make-template-in-source debian/manpage.xml.ex
+W: godot source: dh-make-template-in-source debian/postinst.ex
+W: godot source: dh-make-template-in-source debian/postrm.ex
+W: godot source: dh-make-template-in-source debian/preinst.ex
+W: godot source: dh-make-template-in-source debian/prerm.ex
+W: godot source: dh-make-template-in-source debian/salsa-ci.yml.ex
+W: godot source: dh-make-template-in-source debian/watch.ex
+W: godot: hardening-no-pie usr/bin/godot
+W: godot: missing-depends-line
+W: godot: new-package-should-close-itp-bug
+W: godot: readme-debian-contains-debmake-template
+W: godot source: space-in-std-shortname-in-dep5-copyright <special license> (paragraph at line 6)
+W: godot: spelling-error-in-description Unoffical Unofficial
+W: godot: wrong-bug-number-in-closes l3:#nnnn
+Finished running lintian.

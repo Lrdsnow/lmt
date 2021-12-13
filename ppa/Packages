@@ -1,3 +1,19 @@
+Package: godot
+Version: 3.4-1
+Architecture: amd64
+Maintainer: Lrdsnow <Lrdsnow101@gmail.com>
+Installed-Size: 77870
+Filename: ./godot_3.4-1_amd64.deb
+Size: 32709908
+MD5sum: f2439584be753038f13762661a89e030
+SHA1: 08c627cbce55f797a25745b53498228e4e1af8da
+SHA256: d6e9d7222c4aeab695bad0a5a7032dfc2773e3908ee9a0406e4e732fbcf17d2a
+Section: unknown
+Priority: optional
+Homepage: https://godotengine.org
+Description: Godot Game Engine
+ The Godot Game Engine Unoffical .deb Installer
+
 Package: lmt
 Version: 1.0-1
 Architecture: all
