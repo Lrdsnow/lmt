@@ -1,6 +1,6 @@
-# Lrdsnows MultiTool
+# Element Package Manager
 
-This Is My Multitool 
+This Is My Package Manager For Linux 
 
 ## Install Instructions:
 
@@ -44,9 +44,9 @@ Install With Built In Package Manager (apt/apk/pacman/yum):<br />
 
 ## Avalible MCG Apps:
 
-Lrdsnow's MultiTool:<br />
+Element:<br />
 <code>lmt -i lmt</code><br />
-Lrdsnow's MultiTool GUI:<br />
+Element GUI:<br />
 <code>lmt -i lmt-gui</code><br />
-Lrdsnow's MultiTool Repository Manager:<br />
+Element Repository Manager:<br />
 <code>lmt -i lmt-repo-tools</code><br />
