@@ -1,6 +1,6 @@
-# Lrdsnows MultiTool
+# Element Package Manager
 
-This Is My Multitool 
+This Is My Package Manager For Linux 
 
 ## Install Instructions:
 
