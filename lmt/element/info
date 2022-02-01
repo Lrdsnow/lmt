@@ -1,0 +1,8 @@
+pkg="lmt"
+fname="Element Package"
+bin="./lmt.sh"
+zip=False
+zipfile=""
+setup="sudo mv $bin /bin && sudo chmod 755 /bin/$bin"
+darwin=True
+dsetup="sudo mv $bin /usr/local/bin && chmod 755 /usr/local/bin/$bin"
