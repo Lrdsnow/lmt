@@ -29,7 +29,6 @@ check_repo() {
   if [[ -d ~/.lmt/srcs ]]; then
     :
   else
-    mkdir ~/.lmt
     mkdir ~/.lmt/srcs
     touch ~/.lmt/srcs/srcs.sh
     echo "NOR=1" > ~/.lmt/srcs/srcs.sh
