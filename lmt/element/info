@@ -1,5 +1,6 @@
 pkg="lmt"
 fname="Element Package"
+ver="0.0"
 bin="./lmt.sh"
 zip=False
 zipfile=""
