@@ -1,7 +1,7 @@
 pkg="lmt"
 fname="Element Package"
 ver="0.0"
-bin="./lmt.sh"
+bin="lmt.sh"
 zip=False
 zipfile=""
 setup="sudo mv $bin /bin && sudo chmod 755 /bin/$bin"
