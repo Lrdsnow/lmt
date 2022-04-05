@@ -1,10 +1,10 @@
 pkg="lmt"
-fname="Element Package"
 ver="0.0"
+fname="Element Package"
 bin="lmt.sh"
 zip=False
 zipfile=""
-setup="sudo mv lmt.sh /bin && sudo chmod 755 /bin/lmt.sh"
+setup="sudo mv $bin /bin/lmt && sudo chmod a+x /bin/lmt"
 darwin=True
-dsetup="sudo mv lmt.sh /usr/local/bin && chmod 755 /usr/local/bin/lmt.sh"
+dsetup="sudo mv $bin /usr/local/bin && chmod 755 /usr/local/bin/$bin"
 linux=All
