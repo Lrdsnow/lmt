@@ -1,21 +1,110 @@
 #!/bin/bash
 # Variables
 verbose=0
+home=~/.lmt
+# Basic Setup
+mkdir -p $home
+mkdir -p $home/bin
+mkdir -p $home/temp
 # Repository's
 update() {
-  mkdir -p ~/.lmt
-  echo "$src/repo.rlmt"
-  if wget "$src/repo.rlmt" -q -O ~/.lmt/$repo.rlmt; then
-    echo Succsess
-  else
-    echo Failed
+  if [ ! -f $home/config/repos.conf ]; then
+    mkdir -p $home/config
+    mkdir -p $home/repos
+    echo 'repos=("https://raw.githubusercontent.com/Lrdsnow/lmt/main/repo")' > $home/config/repos.conf
+    echo 'cpkgs=()' > $home/config/pkgs.conf
+    if [[ ! ":$PATH:" == *":$home/bin:"* ]]; then
+      echo 'export PATH="$PATH:$home/bin"' >> ~/.bashrc
+    fi
   fi
+  . $home/config/repos.conf
+  if [ "${#repos[@]}" == "0" ]; then
+    echo "Failed, No repositorys avalible"
+    exit 1
+  fi
+  for src in $repos; do
+    echo "Checking $src/repo.rlmt..."
+    if wget "$src/repo.rlmt" -q -O $home/temp/repo.rlmt; then
+      . $home/temp/repo.rlmt
+      mv -f $home/temp/repo.rlmt $home/temp/$name.rlmt
+      echo Succsesfully downloaded repository file
+    else
+      echo Failed to download repository file
+    fi
+  done
+  for repo in $home/repos/*; do
+    echo "Found $repo"
+    . $repo
+    . $home/config/pkgs.conf
+    echo "cpkgs=($cpkgs $pkgs)" > $home/config/pkgs.conf
+    echo "Succsessfully Checked Repo '$name'"
+  done
+}
+search_package() {
+  if [ -f $home/config/pkgs.conf ]; then
+    . $home/config/pkgs.conf
+    if [[ " ${cpkgs[*]} " =~ " $1 " ]]; then
+      echo "$1 Exists!"
+      return 0
+    else
+      echo "Failed, $1 Does not exist"
+      return 1
+    fi
+  else
+    echo "Failed, No packages found!"
+    return 1
+  fi
+}
+download_package() {
+  for repo in ls $home/repos; do
+    . $repo
+    if $1 in $pkgs; then 
+      if wget "$1/pkgs/$1.lmt" -O $home/temp/$1.lmt; then
+        return 1
+      else
+        return 0
+      fi
+    fi
+  done
+  return 1
 }
 # Install
 install() {
-    for p in $@; do
-      echo $p
-    done
+  for p in $@; do
+    if [[ "$p" == *"/"* ]] || [[ "$p" == *"."* ]]; then
+      if [ -f $p ]; then
+        install_package $p
+      else
+        echo "Failed, file not found"
+      fi
+    else
+      if search_package $p; then
+        if download_package $p; then
+          install_package $home/temp/$p.lmt
+        else
+          echo "Failed, Download failed"
+        fi
+      else
+        echo "Failed, $p not found"
+      fi
+    fi
+  done
+}
+install_package() {
+  mkdir -p $home/temp/unpkged
+  unzip $1 -d $home/temp/unpkged/
+  cwd="$PWD"
+  cd $home/temp/unpkged/
+  . preinst.sh
+  . info.rlmt
+  echo "Installing $name@$version..."
+  if . inst.sh; then
+    echo "Succsesfully installed $name@$version"
+  else
+    echo "Failed to install $name"
+  fi
+  cd "$cwd"
+  rm -rf $home/temp/unpkged
 }
 # Usage
 print_usage() {
@@ -46,3 +135,5 @@ case "${args[0]}" in
     update) update;;
     help) print_usage;;
 esac
+# Cleanup 
+rm -rf $home/temp
