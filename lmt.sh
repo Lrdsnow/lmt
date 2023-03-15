@@ -1,6 +1,7 @@
 #!/bin/bash
 # Variables
 verbose=0
+flags="-q"
 home=~/.lmt
 # Basic Setup
 mkdir -p $home
@@ -24,7 +25,7 @@ update() {
   fi
   for src in $repos; do
     echo "Checking $src/repo.rlmt..."
-    if wget "$src/repo.rlmt" -q -O $home/temp/repo.rlmt; then
+    if wget "$src/repo.rlmt" $flags -O $home/temp/repo.rlmt; then
       . $home/temp/repo.rlmt
       mv $home/temp/repo.rlmt $home/repos/$name.rlmt
       echo Succsesfully downloaded repository file
@@ -46,7 +47,6 @@ search_package() {
     if [[ " ${cpkgs[*]} " =~ " $1 " ]]; then
       return 0
     else
-      echo "Failed, $1 Does not exist"
       return 1
     fi
   else
@@ -59,7 +59,7 @@ download_package() {
     . $repo
     if [[ " ${pkgs[*]} " =~ " $1 " ]]; then
       echo "Downloading $1..."
-      if wget "$url/pkgs/$1.lmt" -q --show-progress -O $home/temp/$1.lmt; then
+      if wget "$url/pkgs/$1.lmt" $flags --show-progress -O $home/temp/$1.lmt; then
         return 0
       else
         return 1
@@ -73,7 +73,11 @@ install() {
   for p in $@; do
     if [[ "$p" == *"/"* ]] || [[ "$p" == *"."* ]]; then
       if [ -f $p ]; then
-        install_package $p
+        if [ ! "${p#*.}" == ".deb" ]; then
+          install_package $p
+        else
+          sudo dpkg install $p
+        fi
       else
         echo "Failed, file not found"
       fi
@@ -85,14 +89,18 @@ install() {
           echo "Failed, Download failed"
         fi
       else
-        echo "Failed, $p not found"
+        if apt search "^$p$" -qq; then
+          sudo apt install $p
+        else
+          echo "Failed, $p not found"
+        fi
       fi
     fi
   done
 }
 install_package() {
   mkdir -p $home/temp/unpkged
-  unzip -q $1 -d $home/temp/unpkged/
+  unzip $flags $1 -d $home/temp/unpkged/
   cwd="$PWD"
   cd $home/temp/unpkged/
   . preinst.sh
@@ -119,13 +127,13 @@ while getopts 'vhi:u:' flag; do # Get flags (With inputs) from beginning
     i) install $OPTARG;;
     u) update;;
     h) print_usage;;
-    v) verbose=1;;
+    v) verbose=1 && flags="";;
   esac
 done
 for i in "$@"; do # Get Flags from anywhere
   case "${i:1}" in
     h) print_usage;;
-    v) verbose=1;;
+    v) verbose=1 && flags="";;
   esac
 done
 # Parse arguments
