@@ -1,2 +1,3 @@
 name="mainrepo"
 pkgs=(test lmt)
+url="https://raw.githubusercontent.com/Lrdsnow/lmt/main/repo/"
