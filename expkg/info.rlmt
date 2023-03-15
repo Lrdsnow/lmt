@@ -1,0 +1,3 @@
+# Package config goes here
+name="example-pkg"
+version=0.1

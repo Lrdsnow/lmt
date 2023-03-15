@@ -26,7 +26,7 @@ update() {
     echo "Checking $src/repo.rlmt..."
     if wget "$src/repo.rlmt" -q -O $home/temp/repo.rlmt; then
       . $home/temp/repo.rlmt
-      mv -f $home/temp/repo.rlmt $home/temp/$name.rlmt
+      mv $home/temp/repo.rlmt $home/repos/$name.rlmt
       echo Succsesfully downloaded repository file
     else
       echo Failed to download repository file
@@ -37,14 +37,13 @@ update() {
     . $repo
     . $home/config/pkgs.conf
     echo "cpkgs=($cpkgs $pkgs)" > $home/config/pkgs.conf
-    echo "Succsessfully Checked Repo '$name'"
+    echo "Succsessfully Refreshed Repo '$name'"
   done
 }
 search_package() {
   if [ -f $home/config/pkgs.conf ]; then
     . $home/config/pkgs.conf
     if [[ " ${cpkgs[*]} " =~ " $1 " ]]; then
-      echo "$1 Exists!"
       return 0
     else
       echo "Failed, $1 Does not exist"
@@ -56,13 +55,14 @@ search_package() {
   fi
 }
 download_package() {
-  for repo in ls $home/repos; do
+  for repo in $home/repos/*; do
     . $repo
-    if $1 in $pkgs; then 
-      if wget "$1/pkgs/$1.lmt" -O $home/temp/$1.lmt; then
-        return 1
-      else
+    if [[ " ${pkgs[*]} " =~ " $1 " ]]; then
+      echo "Downloading $1..."
+      if wget "$url/pkgs/$1.lmt" -q --show-progress -O $home/temp/$1.lmt; then
         return 0
+      else
+        return 1
       fi
     fi
   done
@@ -92,7 +92,7 @@ install() {
 }
 install_package() {
   mkdir -p $home/temp/unpkged
-  unzip $1 -d $home/temp/unpkged/
+  unzip -q $1 -d $home/temp/unpkged/
   cwd="$PWD"
   cd $home/temp/unpkged/
   . preinst.sh
