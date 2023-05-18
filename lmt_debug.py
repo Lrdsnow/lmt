@@ -52,18 +52,18 @@ def update():
         print("Found {}".format(repo))
         with open(os.path.join(home, "repos", repo), "r") as f:
             repo_data = json.load(f)
-        with open(os.path.join(home, "config/pkgs.conf"), "r") as f:
+        with open(os.path.join(home, "config/repos.json"), "r") as f:
             pkgs_data = json.load(f)
         cpkgs = pkgs_data.get("cpkgs", [])
         pkgs = repo_data.get("pkgs", [])
-        with open(os.path.join(home, "config/pkgs.conf"), "w") as f:
-            json.dump({"cpkgs": cpkgs + pkgs}, f, indent=4)
+        pkgs_data["cpkgs"]=str(cpkgs + pkgs)
+        with open(os.path.join(home, "config/repos.json"), "w") as f:
+            json.dump(pkgs_data, f, indent=4)
         print("Successfully Refreshed Repo '{}'".format(repo_data["name"]))
 
 
 def search_package(package):
-    pkgs_file = os.path.join(home, "config/pkgs.json")
-    print(pkgs_file)
+    pkgs_file = os.path.join(home, "config/repos.json")
     if os.path.isfile(pkgs_file):
         with open(pkgs_file, "r") as f:
             data = json.load(f)
@@ -77,14 +77,16 @@ def search_package(package):
 
 
 def download_package(package):
-    for repo in os.listdir(os.path.join(home, "repos")):
-        exec(open(os.path.join(home, "repos", repo)).read())
-        if package in pkgs:
-            print("Downloading {}...".format(package))
-            if subprocess.run(["wget", "{}/pkgs/{}.lmt".format(url, package), flags, "--show-progress", "-O", os.path.join(home, "temp/{}.lmt".format(package))]).returncode == 0:
-                return True
-            else:
-                return False
+    for repo_filename in os.listdir(os.path.join(home, "repos")):
+        repo_path = os.path.join(home, "repos", repo_filename)
+        with open(repo_path, "r") as repo_file:
+            repo_data = json.load(repo_file)
+            if package in repo_data["pkgs"]:
+                print("Downloading {}...".format(package))
+                if subprocess.run(["wget", "{}/pkgs/{}.lmt".format(repo_data["url"], package), flags, "--show-progress", "-O", os.path.join(home, "temp/{}.lmt".format(package))]).returncode == 0:
+                    return True
+                else:
+                    return False
     return False
 
 
@@ -111,19 +113,27 @@ def install(args):
                 else:
                     print("Failed, {} not found".format(p))
 
-
 def install_package(package):
     os.makedirs(os.path.join(home, "temp/unpkged"), exist_ok=True)
     subprocess.run(["unzip", flags, package, "-d", os.path.join(home, "temp/unpkged/")])
     cwd = os.getcwd()
     os.chdir(os.path.join(home, "temp/unpkged/"))
-    exec(open("preinst.sh").read())
-    exec(open("info.rlmt").read())
+
+    # Execute preinst.sh as a shell script
+    subprocess.run(["bash", "preinst.sh"])
+
+    with open("info.json", "r") as f:
+        info_data = json.load(f)
+
+    name = info_data["name"]
+    version = info_data["version"]
+
     print("Installing {}@{}...".format(name, version))
-    if exec(open("inst.sh").read()):
+    if subprocess.run(["bash", "inst.sh"]).returncode == 0:
         print("Successfully installed {}@{}".format(name, version))
     else:
         print("Failed to install {}".format(name))
+
     os.chdir(cwd)
     shutil.rmtree(os.path.join(home, "temp/unpkged"))
 
