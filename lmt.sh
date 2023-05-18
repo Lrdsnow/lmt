@@ -122,7 +122,7 @@ print_usage() {
   echo "-v: Verbose mode"
 }
 # Grab flags
-while getopts 'vhi:u:' flag; do # Get flags (With inputs) from beginning
+while getopts 'vuhi:' flag; do # Get flags (With inputs) from beginning
   case "${flag}" in
     i) install $OPTARG;;
     u) update;;
