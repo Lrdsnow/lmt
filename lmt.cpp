@@ -1,4 +1,6 @@
+#include <iomanip>
 #include <iostream>
+#include <cmath>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -112,7 +114,8 @@ void install_package(const std::string& package) {
     infoFile >> info_data;
     infoFile.close();
     std::string name = info_data["name"].asString();
-    std::string version = info_data["version"].asString();
+    auto version = info_data["version"].asFloat();
+    std::cout << std::setprecision(3) << version;
     std::cout << "Installing " << name << "@" << version << "..." << std::endl;
     std::string inst_script = "bash inst.sh";
     if (system(inst_script.c_str()) == 0) {
