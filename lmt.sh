@@ -34,11 +34,15 @@ update() {
     fi
   done
   for repo in $home/repos/*; do
-    echo "Found $repo"
-    . $repo
-    . $home/config/pkgs.conf
-    echo "cpkgs=($cpkgs $pkgs)" > $home/config/pkgs.conf
-    echo "Succsessfully Refreshed Repo '$name'"
+    if [[ "$repo" == *.rlmt ]]; then
+      echo "Found $repo"
+      . $repo
+      . $home/config/pkgs.conf
+      echo "cpkgs=($cpkgs $pkgs)" > $home/config/pkgs.conf
+      echo "Succsessfully Refreshed Repo '$name'"
+    else
+      echo "Skipped $repo"
+    fi
   done
 }
 search_package() {
@@ -56,13 +60,19 @@ search_package() {
 }
 download_package() {
   for repo in $home/repos/*; do
-    . $repo
-    if [[ " ${pkgs[*]} " =~ " $1 " ]]; then
-      echo "Downloading $1..."
-      if wget "$url/pkgs/$1.lmt" $flags --show-progress -O $home/temp/$1.lmt; then
-        return 0
-      else
-        return 1
+    if [[ "$repo" == *.rlmt ]]; then
+      . $repo
+      if [[ " ${pkgs[*]} " =~ " $1 " ]]; then
+        echo "Downloading $1..."
+        if wget "$url/pkgs/$1.lmt" $flags --show-progress -O $home/temp/$1.lmt; then
+          return 0
+        else
+          return 1
+        fi
+      fi
+    else
+      if [[ verbose == 1 ]]; then
+        echo "Skipped $repo"
       fi
     fi
   done

@@ -3,10 +3,10 @@ import os
 import shutil
 import subprocess
 import sys
-
+import json
 
 # Variables
-verbose = False
+verbose = 0
 flags = "-q"
 home = os.path.expanduser("~/.lmt")
 
@@ -20,57 +20,79 @@ def setup():
 
 # Repository's
 def update():
-    repos_conf_path = os.path.join(home, "config/repos.conf")
+    repos_conf_path = os.path.join(home, "config/repos.json")
     if not os.path.isfile(repos_conf_path):
         os.makedirs(os.path.join(home, "config"), exist_ok=True)
         os.makedirs(os.path.join(home, "repos"), exist_ok=True)
+        data = {
+            "repos": ["https://raw.githubusercontent.com/Lrdsnow/lmt/main/repo"],
+            "cpkgs": []
+        }
         with open(repos_conf_path, "w") as f:
-            f.write('repos=["https://raw.githubusercontent.com/Lrdsnow/lmt/main/repo"]\n')
-            f.write("cpkgs=[]\n")
-        if home+"/bin" not in os.environ["PATH"]:
+            json.dump(data, f, indent=4)
+        if home + "/bin" not in os.environ["PATH"]:
             with open(os.path.expanduser("~/.bashrc"), "a") as f:
-                f.write('export PATH="$PATH:{}"\n'.format(home+"/bin"))
-    repos = []
-    exec(open(repos_conf_path).read())
+                f.write('export PATH="$PATH:{}"\n'.format(home + "/bin"))
+    with open(repos_conf_path, "r") as f:
+        data = json.load(f)
+    repos = data["repos"]
     if len(repos) == 0:
         print("Failed, No repositories available")
         sys.exit(1)
     for src in repos:
-        print("Checking {}/repo.rlmt...".format(src))
-        if subprocess.run(["wget", "{}repo.rlmt".format(src), flags, "-O", os.path.join(home, "temp/repo.rlmt")]).returncode == 0:
-            exec(open(os.path.join(home, "temp/repo.rlmt")).read())
-            shutil.move(os.path.join(home, "temp/repo.rlmt"), os.path.join(home, "repos/{}.rlmt".format(name)))
+        print("Checking {}/repo.json...".format(src))
+        if subprocess.run(["wget", "{}/repo.json".format(src), flags, "-O", os.path.join(home, "temp/repo.json")]).returncode == 0:
+            with open(os.path.join(home, "temp/repo.json"), "r") as f:
+                repo_data = json.load(f)
+            shutil.move(os.path.join(home, "temp/repo.json"), os.path.join(home, "repos/{}.json".format(repo_data["name"])))
             print("Successfully downloaded repository file")
         else:
             print("Failed to download repository file")
     for repo in os.listdir(os.path.join(home, "repos")):
-        print("Found {}".format(repo))
-        exec(open(os.path.join(home, "repos", repo)).read())
-        exec(open(os.path.join(home, "config/pkgs.conf")).read())
-        with open(os.path.join(home, "config/pkgs.conf"), "w") as f:
-            f.write("cpkgs={} {}\n".format(cpkgs, pkgs))
-        print("Successfully Refreshed Repo '{}'".format(name))
+        if ".json" in repo:
+            print("Found {}".format(repo))
+            with open(os.path.join(home, "repos", repo), "r") as f:
+                repo_data = json.load(f)
+            with open(os.path.join(home, "config/repos.json"), "r") as f:
+                pkgs_data = json.load(f)
+            cpkgs = pkgs_data.get("cpkgs", [])
+            pkgs = repo_data.get("pkgs", [])
+            pkgs_data["cpkgs"]=cpkgs+pkgs
+            with open(os.path.join(home, "config/repos.json"), "w") as f:
+                json.dump(pkgs_data, f, indent=4)
+            print("Successfully Refreshed Repo '{}'".format(repo_data["name"]))
+        elif verbose:
+            print(f"Skipping {repo}")
 
 
 def search_package(package):
-    pkgs_conf_path = os.path.join(home, "config/pkgs.conf")
-    if os.path.isfile(pkgs_conf_path):
-        exec(open(pkgs_conf_path).read())
+    pkgs_file = os.path.join(home, "config/repos.json")
+    if os.path.isfile(pkgs_file):
+        with open(pkgs_file, "r") as f:
+            data = json.load(f)
+
+        cpkgs = data.get("cpkgs", [])
         if package in cpkgs:
             return True
+
     print("Failed, No packages found!")
     return False
 
 
 def download_package(package):
-    for repo in os.listdir(os.path.join(home, "repos")):
-        exec(open(os.path.join(home, "repos", repo)).read())
-        if package in pkgs:
-            print("Downloading {}...".format(package))
-            if subprocess.run(["wget", "{}/pkgs/{}.lmt".format(url, package), flags, "--show-progress", "-O", os.path.join(home, "temp/{}.lmt".format(package))]).returncode == 0:
-                return True
-            else:
-                return False
+    for repo_filename in os.listdir(os.path.join(home, "repos")):
+        if ".json" in repo_filename:
+            repo_path = os.path.join(home, "repos", repo_filename)
+            with open(repo_path, "r") as repo_file:
+                repo_data = json.load(repo_file)
+                if package in repo_data["pkgs"]:
+                    print("Downloading {}...".format(package))
+                    if subprocess.run(["wget", "{}/pkgs/{}.lmt".format(repo_data["url"], package), flags, "--show-progress", "-O", os.path.join(home, "temp/{}.lmt".format(package))]).returncode == 0:
+                        return True
+                    else:
+                        return False
+        elif verbose:
+            print(f"Skipping {repo_filename}")
     return False
 
 
@@ -97,22 +119,29 @@ def install(args):
                 else:
                     print("Failed, {} not found".format(p))
 
-
 def install_package(package):
-    temp_dir = os.path.join(home, "temp/unpkged")
-    os.makedirs(temp_dir, exist_ok=True)
-    subprocess.run(["unzip", flags, package, "-d", temp_dir])
+    os.makedirs(os.path.join(home, "temp/unpkged"), exist_ok=True)
+    subprocess.run(["unzip", flags, package, "-d", os.path.join(home, "temp/unpkged/")])
     cwd = os.getcwd()
-    os.chdir(temp_dir)
-    exec(open("preinst.sh").read())
-    exec(open("info.rlmt").read())
+    os.chdir(os.path.join(home, "temp/unpkged/"))
+
+    # Execute preinst.sh as a shell script
+    subprocess.run(["bash", "preinst.sh"])
+
+    with open("info.json", "r") as f:
+        info_data = json.load(f)
+
+    name = info_data["name"]
+    version = info_data["version"]
+
     print("Installing {}@{}...".format(name, version))
-    if exec(open("inst.sh").read()):
+    if subprocess.run(["bash", "inst.sh"]).returncode == 0:
         print("Successfully installed {}@{}".format(name, version))
     else:
         print("Failed to install {}".format(name))
+
     os.chdir(cwd)
-    shutil.rmtree(temp_dir)
+    shutil.rmtree(os.path.join(home, "temp/unpkged"))
 
 
 # Usage
@@ -136,7 +165,7 @@ def parse_arguments():
             print_usage()
         elif flag == "-v":
             global verbose, flags
-            verbose = True
+            verbose = 1
             flags = ""
         else:
             args.insert(0, flag)
