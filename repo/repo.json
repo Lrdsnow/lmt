@@ -3,5 +3,6 @@
     "pkgs":["test", "lmt", "lmt_python", "forgotten_fate", "moros", "moros_beta", "morock", "lmt_gui", "settings"],
     "games":["forgotten_fate", "moros", "moros_beta", "morock"],
     "tools":["lmt", "settings"],
+    "webapps":{"moros_beta":"https://html.itch.zone/html/8166920/index.html"},
     "url":"https://raw.githubusercontent.com/Lrdsnow/lmt/main/repo/"
 }
