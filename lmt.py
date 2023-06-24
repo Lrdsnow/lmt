@@ -133,12 +133,15 @@ def install_package(package):
 
     name = info_data["name"]
     version = info_data["version"]
-
-    print("Installing {}@{}...".format(name, version))
-    if subprocess.run(["bash", "inst.sh"]).returncode == 0:
-        print("Successfully installed {}@{}".format(name, version))
+    arch = subprocess.check_output("uname -p", shell=True)
+    if arch in info_data["arch"] or "all" in info_data["arch"]:
+        print("Installing {}@{}...".format(name, version))
+        if subprocess.run(["bash", "inst.sh"]).returncode == 0:
+            print("Successfully installed {}@{}".format(name, version))
+        else:
+            print("Failed to install {}".format(name))
     else:
-        print("Failed to install {}".format(name))
+        print("Failed to install {}@{}, Incompatible Arch {}!".format(name, version, arch))
 
     os.chdir(cwd)
     shutil.rmtree(os.path.join(home, "temp/unpkged"))

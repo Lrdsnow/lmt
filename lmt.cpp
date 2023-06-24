@@ -17,7 +17,7 @@
 namespace fs = std::filesystem;  // Add this line for namespace alias
 
 // Variables
-int verbose = 0;
+bool verbose = false;
 std::string flags = "-q";
 std::string home = getenv("HOME") + std::string("/.lmt");
 
@@ -26,6 +26,25 @@ void setup() {
     mkdir(home.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     mkdir((home + "/bin").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     mkdir((home + "/temp").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    mkdir((home + "/data").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+}
+
+// Execute Command With Result:
+std::string executeCommand(const char* command) {
+    std::string result;
+    char buffer[128];
+    FILE* pipe = popen(command, "r");
+
+    if (!pipe) {
+        std::cerr << "Error executing command." << std::endl;
+        return "";
+    }
+
+    while (fgets(buffer, sizeof(buffer), pipe) != nullptr)
+        result += buffer;
+
+    pclose(pipe);
+    return result;
 }
 
 // Repository's
@@ -89,7 +108,16 @@ void update() {
             Json::Value pkgs = repo_data.get("pkgs", Json::Value(Json::arrayValue));
             pkgs_data["cpkgs"] = cpkgs;
             for (const auto& pkg : pkgs) {
-                pkgs_data["cpkgs"].append(pkg);
+                bool found = false;
+                for (const auto& cpkg : cpkgs) {
+                    if (pkg == cpkg) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    pkgs_data["cpkgs"].append(pkg);
+                }
             }
             std::ofstream outfile(home + "/config/repos.json");
             outfile << pkgs_data;
@@ -100,6 +128,7 @@ void update() {
         }
     }
 }
+
 
 void install_package(const std::string& package) {
     mkdir((home + "/temp/unpkged").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -115,16 +144,43 @@ void install_package(const std::string& package) {
     infoFile.close();
     std::string name = info_data["name"].asString();
     auto version = info_data["version"].asFloat();
-    std::cout << std::setprecision(3) << version;
-    std::cout << "Installing " << name << "@" << version << "..." << std::endl;
-    std::string inst_script = "bash inst.sh";
-    if (system(inst_script.c_str()) == 0) {
-        std::cout << "Successfully installed " << name << "@" << version << std::endl;
-    } else {
-        std::cout << "Failed to install " << name << std::endl;
+    std::string system_arch = executeCommand("uname -p");
+    system_arch.erase(system_arch.find_last_not_of("\n") + 1);
+    Json::Value arch_list = info_data["arch"];
+    for (const auto& arch : arch_list) {
+        if (arch.isString() && (arch.asString() == "all" || arch.asString() == system_arch)) {
+            std::cout << std::setprecision(3) << version;
+            std::cout << "Installing " << name << "@" << version << "..." << std::endl;
+            std::string inst_script = "bash inst.sh";
+            if (system(inst_script.c_str()) == 0) {
+                std::cout << "Successfully installed " << name << "@" << version << std::endl;
+            } else {
+                std::cout << "Failed to install " << name << std::endl;
+            }
+            chdir(cwd.c_str());
+            system(("rm -rf " + home + "/temp/unpkged").c_str());
+        } else {
+            std::cout << "Failed to install " << name << "@" << version << ", Incompatible With System " << system_arch << "!" << std::endl;
+        }
     }
-    chdir(cwd.c_str());
-    system(("rm -rf " + home + "/temp/unpkged").c_str());
+    
+}
+
+// Function to get a list of packages
+std::vector<std::string> getPackageList() {
+    std::string repos_conf_path = home + "/config/repos.json";
+    std::ifstream file(repos_conf_path);
+    Json::Value data;
+    file >> data;
+    file.close();
+    Json::Value cpkgs = data.get("cpkgs", Json::Value(Json::arrayValue));
+
+    std::vector<std::string> packageList;
+    for (const auto& pkg : cpkgs) {
+        packageList.push_back(pkg.asString());
+    }
+    
+    return packageList;
 }
 
 bool search_package(const std::string& package) {
@@ -207,20 +263,54 @@ void install(const std::vector<std::string>& args) {
     }
 }
 
+// Function to check if a package is installed
+bool isPackageInstalled(const std::string& package) {
+    std::string homeDir = std::getenv("HOME");
+    std::string filePath = homeDir + "/.lmt/bin/" + package;
+    std::ifstream file(filePath);
+    return file.good();
+}
+
+// Function to check the installation status of a specific package
+void checkPackageInstallation(const std::string& package, bool verbose) {
+    bool isInstalled = isPackageInstalled(package);
+    if (verbose) {
+        std::cout << isInstalled << std::endl;
+    } else {
+        std::cout << "Checking installation status of package: " << package << std::endl;
+        std::cout << package << ": " << (isInstalled ? "Installed" : "Not Installed") << std::endl;
+    }
+}
+
+
 // Usage
 void print_usage() {
     std::cout << "install (-i): Install Package(s)" << std::endl;
     std::cout << "update (-u): Update/Refreshes Repositories" << std::endl;
     std::cout << "help (-h): Displays This Help Message" << std::endl;
+    std::cout << "-p: Lists all avalible packages" << std::endl;
     std::cout << "-v: Verbose mode" << std::endl;
 }
+
 
 // Grab flags
 std::vector<std::string> parse_arguments(int argc, char* argv[]) {
     std::vector<std::string> args;
     for (int i = 1; i < argc; i++) {
         std::string flag = argv[i];
-        if (flag == "-i") {
+        if (flag == "-v" or flag == "-vc") {
+            verbose = true;
+        }
+        if (flag == "-c" or flag == "-vc") {
+            if (i + 1 < argc) {
+                std::string packageName = argv[i + 1];
+                checkPackageInstallation(packageName, verbose);
+                i++;  // Increment i to skip the package name
+            } else {
+                std::cerr << "Error: Package name not specified." << std::endl;
+                exit(1);
+            }
+        } else if (flag == "-i") {
             i++;
             while (i < argc) {
                 args.push_back(argv[i]);
@@ -231,9 +321,13 @@ std::vector<std::string> parse_arguments(int argc, char* argv[]) {
             update();
         } else if (flag == "-h") {
             print_usage();
-        } else if (flag == "-v") {
-            verbose = 1;
-            flags = "";
+        } else if (flag == "-p") {
+            std::vector<std::string> packages = getPackageList();
+            for (const auto& package : packages) {
+                std::cout << package << std::endl;
+            }
+        } else {
+            args.push_back(flag);  // Add non-flag arguments to the vector
         }
     }
     return args;
@@ -258,9 +352,6 @@ int main(int argc, char* argv[]) {
         install(args);
     } else {
         std::vector<std::string> args = parse_arguments(argc, argv);
-        if (args.empty()) {
-            print_usage();
-        }
     }
 
     return 0;
