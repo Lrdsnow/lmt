@@ -5,10 +5,17 @@ extends Control
 
 var focusedButton: Button = null
 
+var show_incompatible = false
+
 var swap = false
+
+var arch = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var output = []
+	OS.execute("uname", ["-p"], output, true)
+	arch = output[0].replace("\n", "")
 	games()
 
 # UI Input handling
@@ -21,12 +28,15 @@ func tools():
 	swap=true
 	$title.text="Element (Tools)"
 	for app in lmt.get_array_from_reposJson("tools"):
-		var i = app_button.instantiate()
-		i.name = app
-		i.text = app
-		i.pressed.connect(app_pressed.bind(app))
-		i.get_node("CheckBox").button_pressed = lmt.get_package_install_status(app)
-		%apps.add_child(i)
+		var data = lmt.get_package_info(app)
+		var compatible = true if arch in data["arch"] or "all" in data["arch"] else false
+		if compatible or show_incompatible:
+			var i = app_button.instantiate()
+			i.name = app
+			i.text = app
+			i.pressed.connect(app_pressed.bind(app))
+			i.get_node("CheckBox").button_pressed = lmt.get_package_install_status(app)
+			%apps.add_child(i)
 	call_deferred("focus")
 
 func focus():
@@ -38,13 +48,16 @@ func games():
 	swap=false
 	$title.text="Element (Games)"
 	for app in lmt.get_array_from_reposJson("games"):
-		var i = app_button.instantiate()
-		i.name = app
-		i.text = app
-		i.pressed.connect(app_pressed.bind(app))
-		i.focus_entered.connect(app_pressed.bind(app, i))
-		i.get_node("CheckBox").button_pressed = lmt.get_package_install_status(app)
-		%apps.add_child(i)
+		var data = lmt.get_package_info(app)
+		var compatible = true if arch in data["arch"] or "all" in data["arch"] else false
+		if compatible or show_incompatible:
+			var i = app_button.instantiate()
+			i.name = app
+			i.text = app
+			i.pressed.connect(app_pressed.bind(app))
+			i.focus_entered.connect(app_pressed.bind(app, i))
+			i.get_node("CheckBox").button_pressed = lmt.get_package_install_status(app)
+			%apps.add_child(i)
 	call_deferred("focus")
 
 func clear():
@@ -57,9 +70,7 @@ func app_pressed(app, button=null):
 			x.custom_minimum_size.x = 202
 		button.custom_minimum_size.x = button.custom_minimum_size.x*1.5
 	var data = lmt.get_package_info(app)
-	var output = []
-	OS.execute("uname", ["-p"], output, true)
-	var compatible = true if output[0].replace("\n", "") in data["arch"] or "all" in data["arch"] else false
+	var compatible = true if arch in data["arch"] or "all" in data["arch"] else false
 	var compatible_str = "Compatible" if compatible else "Incompatible"
 	$panel/label.text = "Package: "+data["name"]+"\nVersion: "+str(data["version"])+"\nSupported Architectures: "+str(data["arch"]).replace('"', '').replace("[", "").replace("]", "")+" ("+compatible_str+")"
 	$panel/install/install.pressed.disconnect(install_pkg)
