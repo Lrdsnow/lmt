@@ -1,5 +1,7 @@
 {
     "name":"mainrepo",
     "pkgs":["test", "lmt", "lmt_python", "forgotten_fate", "moros", "moros_beta", "morock"],
+    "games":["forgotten_fate", "moros", "moros_beta", "morock"],
+    "tools":["lmt"],
     "url":"https://raw.githubusercontent.com/Lrdsnow/lmt/main/repo/"
 }

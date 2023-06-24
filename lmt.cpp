@@ -56,6 +56,8 @@ void update() {
         Json::Value data;
         data["repos"].append("https://raw.githubusercontent.com/Lrdsnow/lmt/main/repo");
         data["cpkgs"] = Json::Value(Json::arrayValue);
+        data["games"] = Json::Value(Json::arrayValue);  // New 'games' array
+        data["tools"] = Json::Value(Json::arrayValue);  // New 'tools' array
         std::ofstream file(repos_conf_path);
         file << data;
         file.close();
@@ -117,6 +119,34 @@ void update() {
                 }
                 if (!found) {
                     pkgs_data["cpkgs"].append(pkg);
+                }
+            }
+            // Merge "games" arrays
+            Json::Value games = repo_data.get("games", Json::Value(Json::arrayValue));
+            for (const auto& game : games) {
+                bool found = false;
+                for (const auto& existing_game : pkgs_data["games"]) {
+                    if (game == existing_game) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    pkgs_data["games"].append(game);
+                }
+            }
+            // Merge "tools" arrays
+            Json::Value tools = repo_data.get("tools", Json::Value(Json::arrayValue));
+            for (const auto& tool : tools) {
+                bool found = false;
+                for (const auto& existing_tool : pkgs_data["tools"]) {
+                    if (tool == existing_tool) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    pkgs_data["tools"].append(tool);
                 }
             }
             std::ofstream outfile(home + "/config/repos.json");
