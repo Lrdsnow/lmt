@@ -135,6 +135,22 @@ void update() {
                     pkgs_data["games"].append(game);
                 }
             }
+            // Merge "webapps" arrays (if exists)
+            if (repo_data.isMember("webapps")) {
+                Json::Value games = repo_data.get("webapps", Json::Value(Json::arrayValue));
+                for (const auto& game : games) {
+                    bool found = false;
+                    for (const auto& existing_webapp : pkgs_data["webapps"]) {
+                        if (game == existing_webapp) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        pkgs_data["webapps"].append(game);
+                    }
+                }
+            }
             // Merge "tools" arrays
             Json::Value tools = repo_data.get("tools", Json::Value(Json::arrayValue));
             for (const auto& tool : tools) {
@@ -234,6 +250,23 @@ std::vector<std::string> getPackageList() {
     file >> data;
     file.close();
     Json::Value cpkgs = data.get("cpkgs", Json::Value(Json::arrayValue));
+
+    std::vector<std::string> packageList;
+    for (const auto& pkg : cpkgs) {
+        packageList.push_back(pkg.asString());
+    }
+    
+    return packageList;
+}
+
+// Function to get a list of webapps
+std::vector<std::string> getWebappList() {
+    std::string repos_conf_path = home + "/config/repos.json";
+    std::ifstream file(repos_conf_path);
+    Json::Value data;
+    file >> data;
+    file.close();
+    Json::Value cpkgs = data.get("webapps", Json::Value(Json::arrayValue));
 
     std::vector<std::string> packageList;
     for (const auto& pkg : cpkgs) {
@@ -426,6 +459,11 @@ std::vector<std::string> parse_arguments(int argc, char* argv[]) {
             print_usage();
         } else if (flag == "-p") {
             std::vector<std::string> packages = getPackageList();
+            for (const auto& package : packages) {
+                std::cout << package << std::endl;
+            }
+        } else if (flag == "-w") {
+            std::vector<std::string> packages = getWebappList();
             for (const auto& package : packages) {
                 std::cout << package << std::endl;
             }
