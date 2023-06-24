@@ -1,0 +1,5 @@
+{
+    "name":"moros_beta",
+    "arch":["x86_64", "aarch64"],
+    "version":0.1
+}

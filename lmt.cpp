@@ -159,6 +159,36 @@ void update() {
     }
 }
 
+void printArrayValues(const Json::Value& arrayValue) {
+    for (const auto& value : arrayValue) {
+        std::cout << value << std::endl;
+    }
+}
+
+void getRepoVariable(const std::string& variableName) {
+    std::string repos_conf_path = home + "/config/repos.json";
+    std::ifstream file(repos_conf_path);
+    Json::Value data;
+    file >> data;
+    file.close();
+
+    if (!data.isObject()) {
+        std::cout << "Invalid repos.json format" << std::endl;
+        return;
+    }
+
+    if (!data.isMember(variableName)) {
+        std::cout << "Variable '" << variableName << "' not found in repos.json" << std::endl;
+        return;
+    }
+
+    Json::Value variableValue = data[variableName];
+    if (variableValue.isArray()) {
+        printArrayValues(variableValue);
+    } else {
+        std::cout << "Variable '" << variableName << "' is not an array" << std::endl;
+    }
+}
 
 void install_package(const std::string& package) {
     mkdir((home + "/temp/unpkged").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -259,6 +289,40 @@ bool download_package(const std::string& package) {
     return false;
 }
 
+// Get Package Info
+Json::Value getPackageInfo(const std::string& package) {
+    for (const auto& repo : std::filesystem::directory_iterator(home + "/repos")) {
+        std::string repo_filename = repo.path().filename().string();
+        if (repo_filename.find(".json") != std::string::npos) {
+            std::ifstream repoFile(repo.path());
+            Json::Value repo_data;
+            repoFile >> repo_data;
+            repoFile.close();
+            Json::Value pkgs = repo_data["pkgs"];
+            for (const auto& pkg : pkgs) {
+                if (pkg.asString() == package) {
+                    std::string package_info_url = repo_data["url"].asString() + "/pkgsinfo/" + package + ".json";
+                    std::string temp_package_info_file = home + "/temp/" + package + ".json";
+                    std::string wget_command = "wget -q -O " + temp_package_info_file + " " + package_info_url;
+                    if (system(wget_command.c_str()) == 0) {
+                        std::ifstream infoFile(temp_package_info_file);
+                        Json::Value info_data;
+                        infoFile >> info_data;
+                        infoFile.close();
+                        std::filesystem::remove(temp_package_info_file);
+                        return info_data;
+                    } else {
+                        std::cout << "Failed to download package info for " << package << std::endl;
+                        return Json::Value();
+                    }
+                }
+            }
+        }
+    }
+    std::cout << "Package " << package << " not found" << std::endl;
+    return Json::Value();
+}
+
 // Install
 void install(const std::vector<std::string>& args) {
     for (const auto& p : args) {
@@ -346,7 +410,15 @@ std::vector<std::string> parse_arguments(int argc, char* argv[]) {
                 args.push_back(argv[i]);
                 i++;
             }
-            install(args);
+            install(args); {
+        } else if (flag == "-n") {
+            i++;
+            while (i < argc) {
+                args.push_back(argv[i]);
+                i++;
+            }
+            std::cout << getPackageInfo(args) << std::endl;
+        }
         } else if (flag == "-u") {
             update();
         } else if (flag == "-h") {
@@ -355,6 +427,15 @@ std::vector<std::string> parse_arguments(int argc, char* argv[]) {
             std::vector<std::string> packages = getPackageList();
             for (const auto& package : packages) {
                 std::cout << package << std::endl;
+            }
+        } else if (flag == "-r") {
+            if (i + 1 < argc) {
+                std::string variableName = argv[i + 1];
+                getRepoVariable(variableName);
+                i++;  // Increment i to skip the package name
+            } else {
+                std::cerr << "Error: Variable not specified." << std::endl;
+                exit(1);
             }
         } else {
             args.push_back(flag);  // Add non-flag arguments to the vector
