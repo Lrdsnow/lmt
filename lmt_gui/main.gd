@@ -21,7 +21,9 @@ func _ready():
 # UI Input handling
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
-		focusedButton.pressed.emit()
+		for e in 2:
+			if e == 2:
+				focusedButton.pressed.emit()
 
 func tools():
 	clear()
@@ -69,6 +71,9 @@ func app_pressed(app, button=null):
 		for x in %apps.get_children():
 			x.custom_minimum_size.x = 202
 		button.custom_minimum_size.x = button.custom_minimum_size.x*1.5
+	call_deferred("panel", app)
+
+func panel(app):
 	var data = lmt.get_package_info(app)
 	var compatible = true if arch in data["arch"] or "all" in data["arch"] else false
 	var compatible_str = "Compatible" if compatible else "Incompatible"
