@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://bc1wudc0k6n54"]
+
+[ext_resource type="Theme" uid="uid://bj5kii5v41omo" path="res://src/app_button.tres" id="1_xjvtg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y344w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w0oeh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xqt7w"]
+bg_color = Color(0, 0, 0, 0)
+
+[node name="Button" type="Button"]
+custom_minimum_size = Vector2(202, 202)
+anchors_preset = -1
+anchor_right = 0.175347
+anchor_bottom = 0.311728
+offset_right = -202.0
+offset_bottom = -202.0
+theme = ExtResource("1_xjvtg")
+metadata/_edit_use_anchors_ = true
+
+[node name="CheckBox" type="CheckBox" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0544554
+anchor_top = 0.831683
+anchor_right = 0.950495
+anchor_bottom = 0.985148
+mouse_filter = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_y344w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_w0oeh")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_xqt7w")
+disabled = true
+button_pressed = true
+text = "Installed?"
+alignment = 1
+metadata/_edit_use_anchors_ = true

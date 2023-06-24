@@ -1,0 +1,167 @@
+[gd_scene load_steps=4 format=3 uid="uid://blotj318j7btq"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_jrstb"]
+[ext_resource type="Theme" uid="uid://bj5kii5v41omo" path="res://src/app_button.tres" id="2_7g7og"]
+[ext_resource type="PackedScene" uid="uid://bc1wudc0k6n54" path="res://src/app_button.tscn" id="2_isywl"]
+
+[node name="main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jrstb")
+
+[node name="title" type="Label" parent="."]
+layout_mode = 0
+anchor_left = 0.00694444
+anchor_top = 0.0123457
+anchor_right = 0.215278
+anchor_bottom = 0.0848765
+theme = ExtResource("2_7g7og")
+theme_override_font_sizes/font_size = 25
+text = "Element"
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="apps" type="HBoxContainer" parent="VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" parent="VBoxContainer/ScrollContainer/apps" instance=ExtResource("2_isywl")]
+layout_mode = 2
+
+[node name="add_repo" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.931424
+anchor_top = 0.0277778
+anchor_right = 0.987847
+anchor_bottom = 0.126543
+theme = ExtResource("2_7g7og")
+text = "+"
+metadata/_edit_use_anchors_ = true
+
+[node name="swap" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.869792
+anchor_top = 0.029321
+anchor_right = 0.926215
+anchor_bottom = 0.128086
+theme = ExtResource("2_7g7og")
+text = "*
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="panel" type="Panel" parent="."]
+layout_mode = 0
+anchor_left = 0.00868056
+anchor_top = 0.675926
+anchor_right = 0.986111
+anchor_bottom = 0.973765
+theme = ExtResource("2_7g7og")
+metadata/_edit_use_anchors_ = true
+
+[node name="install" type="Control" parent="panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="install" type="Button" parent="panel/install"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 87.0
+offset_right = 1113.0
+offset_bottom = 179.0
+theme = ExtResource("2_7g7og")
+text = "Install"
+
+[node name="installed_game" type="Control" parent="panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="launch" type="Button" parent="panel/installed_game"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 87.0
+offset_right = 1028.0
+offset_bottom = 179.0
+theme = ExtResource("2_7g7og")
+text = "Launch"
+
+[node name="Settings" type="Button" parent="panel/installed_game"]
+layout_mode = 0
+offset_left = 1039.0
+offset_top = 87.0
+offset_right = 1111.0
+offset_bottom = 179.0
+theme = ExtResource("2_7g7og")
+text = "*"
+
+[node name="installed_tool" type="Control" parent="panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="installed" type="Button" parent="panel/installed_tool"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 87.0
+offset_right = 1028.0
+offset_bottom = 179.0
+theme = ExtResource("2_7g7og")
+disabled = true
+text = "Installed"
+
+[node name="Settings" type="Button" parent="panel/installed_tool"]
+layout_mode = 0
+offset_left = 1039.0
+offset_top = 87.0
+offset_right = 1111.0
+offset_bottom = 179.0
+theme = ExtResource("2_7g7og")
+text = "*"
+
+[node name="label" type="Label" parent="panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.00976909
+anchor_top = 0.0466321
+anchor_right = 1.0
+anchor_bottom = 0.984456
+theme = ExtResource("2_7g7og")
+text = "Package: lmt
+Version: 0.1
+Supported Architectures: x86_64, arch64"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="swap" to="." method="_on_swap_pressed"]

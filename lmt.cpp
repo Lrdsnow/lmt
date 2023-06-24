@@ -410,15 +410,16 @@ std::vector<std::string> parse_arguments(int argc, char* argv[]) {
                 args.push_back(argv[i]);
                 i++;
             }
-            install(args); {
+            install(args);
         } else if (flag == "-n") {
             i++;
             while (i < argc) {
                 args.push_back(argv[i]);
                 i++;
             }
-            std::cout << getPackageInfo(args) << std::endl;
-        }
+            for (const auto& arg : args) {
+                std::cout << getPackageInfo(arg) << std::endl;
+            }
         } else if (flag == "-u") {
             update();
         } else if (flag == "-h") {

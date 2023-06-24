@@ -1,0 +1,5 @@
+{
+    "name":"lmt_gui",
+    "arch":["x86_64", "aarch64"],
+    "version":0.1
+}
