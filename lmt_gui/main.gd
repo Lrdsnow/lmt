@@ -100,7 +100,7 @@ func app_pressed(app, button=null):
 	$panel.show()
 
 func app_settings(_app):
-	pass
+	pass 
 
 func launch_game(game):
 	OS.execute(OS.get_environment("HOME")+"/.lmt/bin/"+game, [])
