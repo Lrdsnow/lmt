@@ -1,5 +1,5 @@
 {
     "name":"mainrepo",
-    "pkgs":["test", "lmt", "lmt_python", "forgotten_fate"],
+    "pkgs":["test", "lmt", "lmt_python", "forgotten_fate", "moros", "moros_beta", "morock"],
     "url":"https://raw.githubusercontent.com/Lrdsnow/lmt/main/repo/"
 }
