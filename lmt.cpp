@@ -232,7 +232,6 @@ void install_package(const std::string& package) {
         }
     }
     if (supported) {
-        std::cout << std::setprecision(3) << version;
         std::cout << "Installing " << name << "@" << version << "..." << std::endl;
         std::string config_dir = home + "/config/pkgs/";
         std::string config_file = config_dir + name + ".json";
@@ -245,7 +244,7 @@ void install_package(const std::string& package) {
             configFile.close();
             auto config_version = config_data["version"].asFloat();
             if (version <= config_version) {
-                std::cout << "Package " << name << " is already up to date. Skipping installation.\n" << std::endl;
+                std::cout << "Package " << name << " is already up to date." << std::endl;
                 chdir(cwd.c_str());
                 system(("rm -rf " + home + "/temp/unpkged").c_str());
                 return;
