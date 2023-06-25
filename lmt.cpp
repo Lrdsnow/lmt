@@ -234,6 +234,40 @@ void install_package(const std::string& package) {
     if (supported) {
         std::cout << std::setprecision(3) << version;
         std::cout << "Installing " << name << "@" << version << "..." << std::endl;
+        std::string config_dir = home + "/config/pkgs/";
+        std::string config_file = config_dir + name + ".json";
+        std::string bin_file = home + "/bin/" + name;
+        std::ifstream configFile(config_file);
+        std::ifstream binFile(bin_file);
+        if (configFile.good()) {
+            Json::Value config_data;
+            configFile >> config_data;
+            configFile.close();
+            auto config_version = config_data["version"].asFloat();
+            if (version <= config_version) {
+                std::cout << "Package " << name << " is already up to date. Skipping installation.\n" << std::endl;
+                chdir(cwd.c_str());
+                system(("rm -rf " + home + "/temp/unpkged").c_str());
+                return;
+            }
+        } else if (binFile.good()) {
+            std::cout << "Warning!: Package binary found but package configuration was not!";
+            char choice;
+            std::cout << "Do you want to continue with Installation? (Y/n): ";
+            std::cin >> choice;
+            
+            if (choice == 'Y' || choice == 'y') {
+                std::cout << "Continuing..." << std::endl;
+            } else {
+                std::cout << "Skipping Installation." << std::endl;
+                return;
+            }
+        }
+        std::ifstream srcInfoFile("info.json", std::ios::binary);
+        std::ofstream dstInfoFile(config_file, std::ios::binary);
+        dstInfoFile << srcInfoFile.rdbuf();
+        srcInfoFile.close();
+        dstInfoFile.close();
         std::string inst_script = "bash inst.sh";
         if (system(inst_script.c_str()) == 0) {
             std::cout << "Successfully installed " << name << "@" << version << std::endl;
