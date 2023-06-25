@@ -27,6 +27,8 @@ void setup() {
     mkdir((home + "/bin").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     mkdir((home + "/temp").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     mkdir((home + "/data").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    mkdir((home + "/config").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    mkdir((home + "/config/pkgs").c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
 // Execute Command With Result:
@@ -223,23 +225,26 @@ void install_package(const std::string& package) {
     std::string system_arch = executeCommand("uname -p");
     system_arch.erase(system_arch.find_last_not_of("\n") + 1);
     Json::Value arch_list = info_data["arch"];
+    bool supported = false;
     for (const auto& arch : arch_list) {
         if (arch.isString() && (arch.asString() == "all" || arch.asString() == system_arch)) {
-            std::cout << std::setprecision(3) << version;
-            std::cout << "Installing " << name << "@" << version << "..." << std::endl;
-            std::string inst_script = "bash inst.sh";
-            if (system(inst_script.c_str()) == 0) {
-                std::cout << "Successfully installed " << name << "@" << version << std::endl;
-            } else {
-                std::cout << "Failed to install " << name << std::endl;
-            }
-            chdir(cwd.c_str());
-            system(("rm -rf " + home + "/temp/unpkged").c_str());
-        } else {
-            std::cout << "Failed to install " << name << "@" << version << ", Incompatible With System " << system_arch << "!" << std::endl;
+            supported = true;
         }
     }
-    
+    if (supported) {
+        std::cout << std::setprecision(3) << version;
+        std::cout << "Installing " << name << "@" << version << "..." << std::endl;
+        std::string inst_script = "bash inst.sh";
+        if (system(inst_script.c_str()) == 0) {
+            std::cout << "Successfully installed " << name << "@" << version << std::endl;
+        } else {
+            std::cout << "Failed to install " << name << std::endl;
+        }
+        chdir(cwd.c_str());
+        system(("rm -rf " + home + "/temp/unpkged").c_str());
+    } else {
+        std::cout << "Failed to install " << name << "@" << version << ", Incompatible With System " << system_arch << "!" << std::endl;
+    }
 }
 
 // Function to get a list of packages

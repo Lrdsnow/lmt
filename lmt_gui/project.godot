@@ -23,6 +23,10 @@ config/icon="res://icon.svg"
 
 lmt="*res://lmt.gd"
 
+[display]
+
+window/size/mode=3
+
 [rendering]
 
 renderer/rendering_method="mobile"
